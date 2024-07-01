@@ -39,17 +39,37 @@ void Config::populateMidiMap(MessageMapper &mapper) const
 {
     libconfig::Setting &midi   = config.lookup("mapper.midi");
 
-    int  channel, controllerFrom, controllerTo, trackFrom;
+
     std::string action;
     int const length = midi.getLength();
     for(unsigned int index = 0; index < length ; index++)
     {
+        int  channel, controllerFrom, controllerTo, trackFrom, track, controller = -1;
         midi[index].lookupValue("channel", channel);
-        midi[index].lookupValue("controllerFrom", controllerFrom);
-        midi[index].lookupValue("controllerTo", controllerTo);
-        midi[index].lookupValue("trackFrom", trackFrom);
+        if(midi[index].exists("controller"))
+        {
+            midi[index].lookupValue("controller", controller);
+        } else
+        {
+            midi[index].lookupValue("controllerFrom", controllerFrom);
+            midi[index].lookupValue("controllerTo", controllerTo);
+        }
+        if(midi[index].exists("track"))
+        {
+            midi[index].lookupValue("track", track);
+        }
+        if(midi[index].exists("trackFrom"))
+        {
+            midi[index].lookupValue("trackFrom", trackFrom);
+        }
         midi[index].lookupValue("action", action);
-        mapper.addMidiMapItems(channel, controllerFrom, controllerTo, trackFrom, action);
+        if( controller != -1)
+        {
+            mapper.addMidiMapItem(channel, controller, track, action);
+        } else
+        {
+            mapper.addMidiMapItems(channel,  controllerFrom, controllerTo, trackFrom, action);
+        }
     }
 }
 

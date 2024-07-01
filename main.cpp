@@ -60,11 +60,13 @@ int main()
             usleep(SLEEP);
             continue;
         }
+        midiMessage.print();
         if(midiMessage.isControlChange())
         {
             // midiMessage.print();
             OscMessage oscMessage{};
             mapper.makeOscMessage(midiMessage, oscMessage);
+            if(oscMessage.type == OscDataType::Invalid) continue;
             osc.sendMessage(oscMessage);
         }
         usleep(SLEEP);

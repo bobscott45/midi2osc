@@ -30,6 +30,9 @@ void Osc::sendMessage(OscMessage const &message) {
         }
         packetStream << 1;
         break;
+    case OscDataType::Binary:
+        packetStream << message.value.charValue;
+        break;
     }
     packetStream << osc::EndMessage
         << osc::EndBundle;

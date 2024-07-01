@@ -12,7 +12,7 @@ class MidiMessage;
 
 enum class Action
 {
-    TrackVolume, TrackRecArm, TrackMute, TrackSolo, TrackPan, Invalid
+    TrackVolume, TrackRecArm, TrackMute, TrackSolo, TrackPan, Rewind, Forward, Record, Stop, Play, Pause, Invalid
 };
 
 
@@ -22,6 +22,7 @@ public:
     std::map<const std::tuple<int, int>, std::tuple<int, std::string>> midiMap;
     std::map<const Action, std::tuple<std::string, OscDataType>> oscMap;
     void addOscMapItem(std::string const &action, std::string const &address, std::string &type);
+    void addMidiMapItem(int channel, int controller, int track, std::string const &action);
     void addMidiMapItems(int channel, int controllerFrom, int controllerTo, int trackFrom, std::string const &action);
     OscMessage & makeOscMessage(MidiMessage const &midiMessage, OscMessage &oscMessage);
 private:

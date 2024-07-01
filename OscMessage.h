@@ -9,7 +9,7 @@
 
 enum class OscDataType
 {
-    Nomalized, Toggle, Invalid
+    Nomalized, Toggle, Binary, Invalid
 };
 
 union Value
@@ -28,7 +28,7 @@ public:
     std::string address;
     OscDataType type;
     Value value;
-    OscMessage(): address(""), type(OscDataType{}), value(0){}
+    OscMessage(): address(""), type(OscDataType::Invalid), value(0){}
     OscMessage(const std::string address, const OscDataType type): address(address), type(type), value(0) {}
     OscMessage(const std::string address, const OscDataType type, int value): address(address), type(type), value(0) {}
     OscMessage(const std::string address, const OscDataType type, float value): address(address), type(type), value(value) {}
